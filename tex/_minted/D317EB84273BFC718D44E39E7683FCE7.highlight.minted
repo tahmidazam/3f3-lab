@@ -1,0 +1,56 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{pyplot} \PYG{k}{as} \PYG{n}{plt}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{constants}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{save\PYGZus{}fig}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{save\PYGZus{}fig}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{plot\PYGZus{}multinomial\PYGZus{}theory}\PYG{p}{(}
+        \PYG{n}{n\PYGZus{}values}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{]}\PYG{p}{,}
+        \PYG{n}{subplot\PYGZus{}titles}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]}\PYG{p}{,}
+        \PYG{n}{k}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{30}\PYG{p}{,}
+\PYG{p}{)} \PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}} \PYG{k+kc}{None}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Plots histograms of the uniform distribution with overlaid horizontal}
+\PYG{l+s+sd}{    lines for the theoretical mean and \PYGZhy{}3 and 3 times the standard deviation.}
+
+\PYG{l+s+sd}{    :param n\PYGZus{}values: The values for the sample count for each subplot.}
+\PYG{l+s+sd}{    :param subplot\PYGZus{}titles: The titles for each subplot.}
+\PYG{l+s+sd}{    :param k: The number of histogram bins.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{fig}\PYG{p}{,} \PYG{n}{axes} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{,} \PYG{n}{ncols}\PYG{o}{=}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{n\PYGZus{}values}\PYG{p}{)}\PYG{p}{,} \PYG{n}{nrows}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{p}{(}\PYG{n}{ax}\PYG{p}{,} \PYG{n}{n}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{axes}\PYG{p}{,} \PYG{n}{n\PYGZus{}values}\PYG{p}{)}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{vector} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}
+        \PYG{n}{p} \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{k}
+        \PYG{n}{theoretical\PYGZus{}mean} \PYG{o}{=} \PYG{n}{n} \PYG{o}{*} \PYG{n}{p}
+        \PYG{n}{theoretical\PYGZus{}std\PYGZus{}dev} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{n} \PYG{o}{*} \PYG{n}{p} \PYG{o}{*} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{p}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{counts}\PYG{p}{,} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{ax}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{vector}\PYG{p}{,} \PYG{n}{bins}\PYG{o}{=}\PYG{n}{k}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lightgrey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{hlines}\PYG{p}{(}
+            \PYG{n}{theoretical\PYGZus{}mean}\PYG{p}{,} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,}
+            \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZdl{}E[X\PYGZus{}j]\PYGZdl{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+        \PYG{p}{)}
+
+        \PYG{n}{three\PYGZus{}std\PYGZus{}dev\PYGZus{}lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{n}{theoretical\PYGZus{}mean} \PYG{o}{+} \PYG{l+m+mi}{3} \PYG{o}{*} \PYG{n}{theoretical\PYGZus{}std\PYGZus{}dev}\PYG{p}{,}
+            \PYG{n}{theoretical\PYGZus{}mean} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{3} \PYG{o}{*} \PYG{n}{theoretical\PYGZus{}std\PYGZus{}dev}
+        \PYG{p}{]}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{hlines}\PYG{p}{(}
+            \PYG{n}{three\PYGZus{}std\PYGZus{}dev\PYGZus{}lines}\PYG{p}{,}
+            \PYG{n}{bin\PYGZus{}edges}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,}
+            \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{dashed}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZdl{}E[X\PYGZus{}j] }\PYG{l+s+s2}{\PYGZbs{}}\PYG{l+s+s2}{pm 3}\PYG{l+s+s2}{\PYGZbs{}}\PYG{l+s+s2}{sigma\PYGZdl{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{p}{)}
+
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{value}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{n}{subplot\PYGZus{}titles}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{axes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{count}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{axes}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{x\PYGZhy{}small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lower right}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{save\PYGZus{}fig}\PYG{p}{(}\PYG{n}{question}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{uniform\PYGZus{}multinomial}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}

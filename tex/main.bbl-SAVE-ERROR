@@ -1,0 +1,135 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{raykarFastComputationKernel2010}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=44c97fffee4a71313f866fa98f481f87}{%
+           family={Raykar},
+           familyi={R\bibinitperiod},
+           given={Vikas\bibnamedelima C.},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=f98c0b5a64a55192a2bfdc59923a0d3d}{%
+           family={Duraiswami},
+           familyi={D\bibinitperiod},
+           given={Ramani},
+           giveni={R\bibinitperiod}}}%
+        {{hash=bdac8e7d961c3f1b6b5afc061e462486}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Linda\bibnamedelima H.},
+           giveni={L\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ASA Website}%
+      }
+      \strng{namehash}{489774462295692327e983108a844198}
+      \strng{fullhash}{489774462295692327e983108a844198}
+      \strng{fullhashraw}{489774462295692327e983108a844198}
+      \strng{bibnamehash}{489774462295692327e983108a844198}
+      \strng{authorbibnamehash}{489774462295692327e983108a844198}
+      \strng{authornamehash}{489774462295692327e983108a844198}
+      \strng{authorfullhash}{489774462295692327e983108a844198}
+      \strng{authorfullhashraw}{489774462295692327e983108a844198}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The computational complexity of evaluating the kernel density estimate (or its derivatives) at m evaluation points given n sample points scales quadratically as O(nm)—making it prohibitively expensive for large datasets. While approximate methods like binning could speed up the computation, they lack a precise control over the accuracy of the approximation. There is no straightforward way of choosing the binning parameters a priori in order to achieve a desired approximation error. We propose a novel computationally efficient ε-exact approximation algorithm for the univariate Gaussian kernel-based density derivative estimation that reduces the computational complexity from O(nm) to linear O(n+m). The user can specify a desired accuracy ε. The algorithm guarantees that the actual error between the approximation and the original kernel estimate will always be less than ε. We also apply our proposed fast algorithm to speed up automatic bandwidth selection procedures. We compare our method to the best available binning methods in terms of the speed and the accuracy. Our experimental results show that the proposed method is almost twice as fast as the best binning methods and is around five orders of magnitude more accurate. The software for the proposed method is available online.}
+      \field{day}{1}
+      \field{issn}{1061-8600}
+      \field{journaltitle}{Journal of Computational and Graphical Statistics}
+      \field{month}{1}
+      \field{number}{1}
+      \field{title}{Fast {{Computation}} of {{Kernel Estimators}}}
+      \field{urlday}{8}
+      \field{urlmonth}{11}
+      \field{urlyear}{2025}
+      \field{volume}{19}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{205\bibrangedash 220}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1198/jcgs.2010.09046
+      \endverb
+      \verb{file}
+      \verb /Users/tahmidazam/Zotero/storage/T59YWYM8/Raykar et al. - 2010 - Fast Computation of Kernel Estimators.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1198/jcgs.2010.09046
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1198/jcgs.2010.09046
+      \endverb
+      \keyw{Bandwidth estimation,Binning,Fast Fourier transform,Kernel density derivative estimation,Kernel density estimation}
+    \endentry
+    \entry{heerFastAccurateGaussian2021}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=c1fc05b7156dc351ceebcc7f14fe27ee}{%
+           family={Heer},
+           familyi={H\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{fullhash}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{fullhashraw}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{bibnamehash}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{authorbibnamehash}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{authornamehash}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{authorfullhash}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \strng{authorfullhashraw}{c1fc05b7156dc351ceebcc7f14fe27ee}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Kernel density estimation (KDE) models a discrete sample of data as a continuous distribution, supporting the construction of visualizations such as violin plots, heatmaps, and contour plots. This paper draws on the statistics and image processing literature to survey efficient and scalable density estimation techniques for the common case of Gaussian kernel functions. We evaluate the accuracy and running time of these methods across multiple visualization contexts and find that the combination of linear binning and a recursive filter approximation by Deriche efficiently produces pixel-perfect estimates across a compelling range of kernel bandwidths.}
+      \field{booktitle}{2021 {{IEEE Visualization Conference}} ({{VIS}})}
+      \field{eventtitle}{2021 {{IEEE Visualization Conference}} ({{VIS}})}
+      \field{month}{10}
+      \field{title}{Fast \& {{Accurate Gaussian Kernel Density Estimation}}}
+      \field{urlday}{8}
+      \field{urlmonth}{11}
+      \field{urlyear}{2025}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{11\bibrangedash 15}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/VIS49827.2021.9623323
+      \endverb
+      \verb{file}
+      \verb /Users/tahmidazam/Zotero/storage/SLUYHND2/Heer - 2021 - Fast & Accurate Gaussian Kernel Density Estimation.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/document/9623323
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/document/9623323
+      \endverb
+      \keyw{approximation,binning,Data visualization,Estimation,evaluation,Gaussian convolution,Kernel density estimation,Matched filters,Maximum likelihood detection,Measurement,Nonlinear filters,performance,Shape}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

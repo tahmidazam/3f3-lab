@@ -1,0 +1,63 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{pyplot} \PYG{k}{as} \PYG{n}{plt}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{scipy}\PYG{n+nn}{.}\PYG{n+nn}{stats}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{norm}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{constants}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{save\PYGZus{}fig}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{save\PYGZus{}fig}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{jacobian}\PYG{p}{(}
+        \PYG{n}{a}\PYG{p}{:} \PYG{n+nb}{float} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
+        \PYG{n}{b}\PYG{p}{:} \PYG{n+nb}{float} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
+        \PYG{n}{n}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{10\PYGZus{}000}\PYG{p}{,}
+        \PYG{n}{bin\PYGZus{}count}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{30}\PYG{p}{,}
+        \PYG{n}{linspace\PYGZus{}num}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{1\PYGZus{}000}\PYG{p}{,}
+\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Plots histograms of linear [f(x) = ax + b] and square [f(x) = x\PYGZca{}2] transformations of}
+\PYG{l+s+sd}{    samples from the normal distribution, overlaid with the theoretical pdfs calculated}
+\PYG{l+s+sd}{    using the Jacobian.}
+
+\PYG{l+s+sd}{    :param a: The value of constant a.}
+\PYG{l+s+sd}{    :param b: The value of constant b.}
+\PYG{l+s+sd}{    :param n: The number of samples taken from the normal distribution.}
+\PYG{l+s+sd}{    :param bin\PYGZus{}count: The number of histogram bins.}
+\PYG{l+s+sd}{    :param linspace\PYGZus{}num: The number of points to evaluate the pdfs at.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}
+    \PYG{n}{y\PYGZus{}linear} \PYG{o}{=} \PYG{n}{a} \PYG{o}{*} \PYG{n}{x} \PYG{o}{+} \PYG{n}{b}
+    \PYG{n}{y\PYGZus{}square} \PYG{o}{=} \PYG{n}{x} \PYG{o}{*}\PYG{o}{*} \PYG{l+m+mi}{2}
+    \PYG{n}{y\PYGZus{}linear\PYGZus{}vals} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{y\PYGZus{}linear}\PYG{p}{)}\PYG{p}{,} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{y\PYGZus{}linear}\PYG{p}{)}\PYG{p}{,} \PYG{n}{num}\PYG{o}{=}\PYG{n}{linspace\PYGZus{}num}\PYG{p}{)}
+    \PYG{n}{y\PYGZus{}square\PYGZus{}vals} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}
+        \PYG{n}{start}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} Avoid division by 0}
+        \PYG{n}{stop}\PYG{o}{=}\PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{y\PYGZus{}square}\PYG{p}{)}\PYG{p}{,}
+        \PYG{n}{num}\PYG{o}{=}\PYG{n}{linspace\PYGZus{}num}
+    \PYG{p}{)}
+    \PYG{n}{p\PYGZus{}y\PYGZus{}linear} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{n}{norm}\PYG{o}{.}\PYG{n}{pdf}\PYG{p}{(}\PYG{p}{(}\PYG{n}{y\PYGZus{}linear\PYGZus{}vals} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{)} \PYG{o}{/} \PYG{n}{a}\PYG{p}{)}
+    \PYG{n}{p\PYGZus{}y\PYGZus{}square} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}
+        \PYG{l+m+mf}{0.5} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{val}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{norm}\PYG{o}{.}\PYG{n}{pdf}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{val}\PYG{p}{)}\PYG{p}{)} \PYG{o}{+} \PYG{n}{norm}\PYG{o}{.}\PYG{n}{pdf}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{val}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{val} \PYG{o+ow}{in} \PYG{n}{y\PYGZus{}square\PYGZus{}vals}
+    \PYG{p}{]}\PYG{p}{)}
+
+    \PYG{n}{fig}\PYG{p}{,} \PYG{p}{(}\PYG{n}{linear\PYGZus{}ax}\PYG{p}{,} \PYG{n}{square\PYGZus{}ax}\PYG{p}{)} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}
+        \PYG{n}{nrows}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+        \PYG{n}{ncols}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+        \PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{p}{)}
+
+    \PYG{n}{linear\PYGZus{}ax}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{y\PYGZus{}linear}\PYG{p}{,} \PYG{n}{bins}\PYG{o}{=}\PYG{n}{bin\PYGZus{}count}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lightgrey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{density}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{linear\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{y\PYGZus{}linear\PYGZus{}vals}\PYG{p}{,} \PYG{n}{p\PYGZus{}y\PYGZus{}linear}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{counts\PYGZus{}square}\PYG{p}{,} \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{square\PYGZus{}ax}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{y\PYGZus{}square}\PYG{p}{,} \PYG{n}{bins}\PYG{o}{=}\PYG{n}{bin\PYGZus{}count}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lightgrey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{density}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{square\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{y\PYGZus{}square\PYGZus{}vals}\PYG{p}{,} \PYG{n}{p\PYGZus{}y\PYGZus{}square}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{max\PYGZus{}bin\PYGZus{}count} \PYG{o}{=} \PYG{n}{counts\PYGZus{}square}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{square\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylim}\PYG{p}{(}\PYG{n}{top}\PYG{o}{=}\PYG{l+m+mf}{1.2} \PYG{o}{*} \PYG{n}{max\PYGZus{}bin\PYGZus{}count}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} Limit y\PYGZhy{}axis due to large values close to 0.}
+    \PYG{n}{linear\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{value}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{square\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{value}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{linear\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{probability density}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{linear\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{A}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{square\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{B}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{save\PYGZus{}fig}\PYG{p}{(}\PYG{n}{question}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{jacobian}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}

@@ -1,0 +1,247 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{pgf}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{minted}
+\usepackage[nolist]{acronym}
+\usepackage[hidelinks]{hyperref}
+\usepackage[style=numeric-comp,sorting=none]{biblatex}
+\usepackage[justification=raggedright,singlelinecheck=false]{caption}
+
+\addbibresource{references.bib}
+
+\usemintedstyle{xcode}
+
+% Fix for https://github.com/matplotlib/matplotlib/issues/27907
+\providecommand{\mathdefault}[1]{#1}
+
+\title{Module Experiment 3F3\\Random variables and random number generation}
+\author{Tahmid Azam\\Emmanuel College}
+\date{November 2025}
+
+\begin{document}
+\begin{acronym}
+    \acro{KDE}{kernel density estimate}
+    \acro{pdf}{probability density function}
+    \acro{CDF}{cumulative distribution function}
+\end{acronym}
+
+\maketitle
+\newpage
+
+\section{Uniform and normal random variables}
+
+\subsection{Estimating a probability density function}
+
+\begin{figure}[H]
+    \centering
+    \input{plots/1_normal.pgf}
+    \caption{
+        Histogram (subplot A, bin count, $k=30$) and kernel smooth density function (subplot B, $\mathcal{K}=\mathcal{N}(x|0, 1)$, $\sigma=0.3$) estimates of random samples from a normal distribution (\texttt{numpy.random.randn}, $n=1000$) compared to the exact scaled \ac{pdf} of a normal distribution (\texttt{scipy.stats.norm}).
+    }
+    \label{fig:1_normal}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \input{plots/1_uniform.pgf}
+    \caption{Histogram (subplot A, $k=30$) and kernel smooth density function (subplot B, $\mathcal{K}=\mathcal{N}(x|0, 1)$, $\sigma=0.15$) estimates of random samples from a uniform distribution (\texttt{numpy.random.rand}, $n=1000$) compared to the exact scaled \ac{pdf} of a uniform distribution (\texttt{scipy.stats.uniform}).}
+    \label{fig:1_uniform}
+\end{figure}
+
+The \ac{KDE} produces a continuous and smooth function, unlike the discontinuous histogram. Both methods require selection of a resolution parameter (width, $\sigma$, for the \ac{KDE}; bin count for the histogram). If these are too small, this leads to overfitting to the random samples; too large loses detail. The \ac{KDE} also requires selection of a kernel function. The \ac{KDE} performs poorly near the sharp edges of the uniform distribution (\autoref{fig:1_uniform}) and creates artificial tails outside its domain of [0, 1] if evaluated there. The complexity of the histogram method for is $\mathcal{O}(n)$ (i.e., bin assignment for each $n$); for evaluating the \ac{KDE} for $m$ points, the complexity is $\mathcal{O}(n \times m)$ (i.e., sum over $n$ kernels for each data point $m$) \cite{raykarFastComputationKernel2010}. Optimised implementations of the \ac{KDE} using the fast fourier transform achieve $\mathcal{O}(n + m\log{m})$ \cite{heerFastAccurateGaussian2021}. Regardless, the \ac{KDE} is more computationally expensive than the histogram method.
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/plot_pdf_and_estimate.py}
+
+    \caption{Python function definition for plotting the histogram estimate and KDE in \autoref{fig:1_normal} and \autoref{fig:1_uniform}.}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minted}[fontsize=\footnotesize]{python}
+plot_pdf_and_estimate(
+    plot_id="normal",
+    gen_fn=np.random.randn,
+    pdf=lambda x: norm.pdf(x, 0, 1)
+)
+
+plot_pdf_and_estimate(
+    plot_id="uniform",
+    gen_fn=np.random.rand,
+    pdf=lambda x: uniform.pdf(x, 0, 1),
+    ks_density_width=0.15
+)
+    \end{minted}
+    \caption{Python function calls for plotting the histogram estimate and KDE in \autoref{fig:1_normal} and \autoref{fig:1_uniform}.}
+\end{figure}
+
+
+\subsection{The multinomial distribution}
+
+For a continuous uniform distribution over $[a, b]$, we divide the interval into $k$ equal-width bins. The probability of a random sample (of total $N$ samples) falling into bin $i$ is given by $p_j = \frac{1}{k}$, where $j = 1, 2, \ldots, k$. Using the multinomial theory, we can derive the theoretical mean and standard deviation of the histogram data as a function of $N$:
+
+\begin{align}
+    E[X_j]          & = Np_j = \frac{N}{k}                                                         \\
+    \text{Var}(X_j) & = Np_j(1-p_j) = N \frac{1}{k}\left(1-\frac{1}{k}\right) = \frac{N(k-1)}{k^2} \\
+    \sigma_{X_j}    & = \frac{\sqrt{N(k-1)}}{k}
+\end{align}
+
+Note the mean does not depend on $N$. To obtain the histogram estimate from the counts, we divide $X_j$ by the number of samples $N$. Thus, we can derive expected value for the histogram estimate:
+
+\begin{equation}
+    E\left[\frac{X_j}{N}\right] = \frac{1}{k} = p_j
+\end{equation}
+
+Using the property $\text{Var}(aX) = a^2 \text{Var}(X)$, we can derive the variance for the histogram estimate:
+
+\begin{align}
+    \text{Var}\left(\frac{X_j}{N}\right)
+                                                             & = \frac{1}{N^2} \text{Var}(X_j)
+    = \frac{1}{N^2} \cdot \frac{N(k-1)}{k^2}
+    = \frac{k-1}{N k^2}                                                                                \\
+    \lim_{N \to \infty} \text{Var}\left(\frac{X_j}{N}\right) & = \lim_{N \to \infty} \frac{k-1}{N k^2}
+    = 0
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \input{plots/1_uniform_multinomial.pgf}
+    \caption{
+        Data histograms ($k=30$) for $N=10^2$ (subplot A), $N=10^3$ (subplot B), and $N=10^4$ (subplot C) random samples from a uniform distribution (\texttt{numpy.random.rand}).
+    }
+    \label{fig:1_uniform_multinomial}
+\end{figure}
+
+As $N$ becomes large, the variance approaches 0 and the mean remains fixed at the true probability $p_j=\frac{1}{k}$. Consequently, the histogram estimate converges to the true \ac{pdf} of the uniform distribution. In \autoref{fig:1_uniform_multinomial}, the histogram counts fluctuate around the theoretical mean, and the majority of bins lie within $[E[X_j] - 3\sigma, E[X_j] + 3\sigma]$. As $N$ increases, the fluctuations decrease and the histogram approaches the true \ac{pdf} of the uniform distribution, consistent with the multinomial distribution theory. This consolidates the accuracy of Python's uniformly distributed random variates.
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/plot_multinomial_theory.py}
+
+    \caption{Python function implementation for plotting the histograms in \autoref{fig:1_uniform_multinomial}.}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minted}[fontsize=\footnotesize]{python}
+plot_multinomial_theory(
+    n_values=[100, 1_000, 10_000],
+    subplot_titles=["A", "B", "C"],
+)
+    \end{minted}
+    \caption{Python function calls for plotting the histograms in \autoref{fig:1_uniform_multinomial}.}
+\end{figure}
+
+\section{Functions of random variables}
+
+For $p_X(x) = \mathcal{N}(x|0, 1)$, and $y = f(x) = ax + b$ (\autoref{fig:2_jacobian}, subplot A), we can derive $p_Y(y)$ using the Jacobian formula:
+
+\begin{align}
+    p_X(x)        & = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\Bigg|_{\mu = 0, \sigma^2 = 1} = \frac{1}{\sqrt{2\pi}} \exp\left[-\frac{x^2}{2}\right]                                           \\
+    \frac{dy}{dx} & = a                                                                                                                                                                                                             \\
+    f^{-1}(y)     & = \frac{y - b}{a}                                                                                                                                                                                               \\
+    p_Y(y)        & = p_X(x) \frac{1}{\left| \frac{dy}{dx} \right|}\Bigg|_{x = f^{-1}(y)} = p_X\left(\frac{y - b}{a}\right) \cdot \frac{1}{|a|} = \frac{1}{|a|\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{y-b}{a}\right)^2\right] \\
+                  & = \frac{1}{\sqrt{2\pi a^2}}\exp\left[-\frac{(y-b)^2}{2a^2}\right] = \mathcal{N}(y|b, a^2)
+\end{align}
+
+
+For the case $y = f(x) = x^2$ (\autoref{fig:2_jacobian}, subplot B), we have to account for a 2-to-1 mapping:
+
+\begin{align}
+    \frac{dy}{dx} & = 2x                                                                                                                                                                                                            \\
+    f^{-1}(y)     & = \pm \sqrt{y}, \quad y \ge 0                                                                                                                                                                                   \\
+    p_Y(y)        & = p_X(x) \frac{1}{\left| \frac{dy}{dx} \right|}\Bigg|_{x = \sqrt{y}} + p_X(x) \frac{1}{\left| \frac{dy}{dx} \right|}\Bigg|_{x = -\sqrt{y}} = \frac{p_X(\sqrt{y})}{2\sqrt{y}} + \frac{p_X(-\sqrt{y})}{2\sqrt{y}} \\
+                  & = \frac{1}{\sqrt{2\pi y}} \exp\left[-\frac{y}{2}\right], \quad y \ge 0
+\end{align}
+
+Thus, squaring a standard normal random variable yields a distribution supported on $y \ge 0$, corresponding to a chi-squared distribution with one degree of freedom.
+
+\begin{figure}[H]
+    \centering
+    \input{plots/2_jacobian.pgf}
+    \caption{
+        Histogram ($k=30$) of $N=10^5$ samples $x^{(i)}$ to give $y^{(i)}=f(x^{(i)})$ using $f(x) = ax + b$ (subplot A, $a=b=10$) and $f(x) = x^2$ (subplot B) overlaid with the theoretical \ac{pdf} calculated using the Jacobian.
+    }
+    \label{fig:2_jacobian}
+\end{figure}
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/jacobian.py}
+    \caption{Python implementation for plotting the histogram estimates in \autoref{fig:2_jacobian}.}
+\end{figure}
+
+\newpage
+\section{Inverse cumulative distribution function method}
+
+For the exponential distribution with mean 1 with \ac{pdf} $p(y) = \exp(-y)$, $y \ge 0$, we can derive the \ac{CDF} and its inverse:
+
+\begin{align}
+    F_Y(y)      & = P(Y \le y) = \int_0^y e^{-t}dt = [-e^{-t}]_0^y = 1 - e^{-y}, \quad y \ge 0 \\
+    F_Y^{-1}(u) & = -\ln(1-u), \quad u \in [0, 1)
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \input{plots/3_inverse_cdf.pgf}
+    \caption{
+        Histogram (subplot A, $k=30$) and kernel density (subplot B, $\mathcal{K}=\mathcal{N}(x|0, 1)$, $\sigma=0.15$) estimates from $N=10^4$ samples generated using the inverse \ac{CDF} method compared to the exact \ac{pdf} of the exponential distribution with mean 1.}
+    \label{fig:3_inverse_cdf}
+\end{figure}
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/inverse_cdf.py}
+    \caption{Python implementation for plotting the histogram and \ac{KDE} estimates in \autoref{fig:3_inverse_cdf}.}
+\end{figure}
+
+\section{Simulation from a ‘difficult’ density}
+
+For $\alpha \in (0, 2)$ ($\alpha \neq 1$), $\beta \in [-1, 1]$, let:
+
+\begin{align}
+    b & = \frac{1}{\alpha}\arctan\left[\beta \tan\left(\frac{\pi\alpha}{2}\right)\right]                                                   \\
+    s & =\left[1 + \beta^2\tan^2\left(\frac{\pi\alpha}{2}\right)\right]^\frac{1}{2\alpha}                                                  \\
+    U & \sim \mathcal{U}(-\frac{\pi}{2}, \frac{\pi}{2})                                                                                    \\
+    V & \sim \mathcal{E}(V|1)                                                                                                              \\
+    X & = s\frac{\sin(\alpha(U+b))}{(\cos(U))^{\frac{1}{\alpha}}} \left(\frac{\cos(U - \alpha(U + b))}{V}\right)^{\frac{1-\alpha}{\alpha}}
+\end{align}
+
+In \autoref{fig:4_simulation}, varying $\alpha$ changes the width of the density and varying $\beta$ shifts the mass left or right. The parameter $\alpha \in (0,2)$ controls the spread of the distribution. Small values of $\alpha$ concentrate most of the probability mass near the center, producing a sharp peak, while larger values of $\alpha$ spread the distribution and increase the relative probability of extreme values. The parameter $\beta \in [-1,1]$ controls the skewness: $\beta = 0$ gives a symmetric distribution, $\beta > 0$ skews it to the right, and $\beta < 0$ skews it to the left.
+
+\begin{figure}[H]
+    \centering
+    \input{plots/4_simulation.pgf}
+    \caption{
+        Histogram density estimates ($k=30$, $\alpha=0.5, 1.5$, $\beta=-1, -0.5, 0, 0.5, 1$) from $N=10^5$ samples from $X$.
+    }
+    \label{fig:4_simulation}
+\end{figure}
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/calc_const_s.py}
+    \caption{Python implementation for calculating $s$.}
+\end{figure}
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/calc_const_b.py}
+    \caption{Python implementation for calculating $b$.}
+\end{figure}
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/calc_rv_x.py}
+    \caption{Python implementation for calculating the random variable $X$.}
+\end{figure}
+
+\begin{figure}[H]
+    \inputminted[fontsize=\footnotesize]{python}{../src/simulation.py}
+    \caption{Python implementation for plotting the histogram estimates in \autoref{fig:4_simulation}.}
+\end{figure}
+
+\newpage
+\printbibliography
+
+
+
+\end{document}

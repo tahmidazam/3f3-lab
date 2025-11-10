@@ -1,0 +1,51 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{pyplot} \PYG{k}{as} \PYG{n}{plt}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{constants}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{ksdensity}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{ksdensity}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{save\PYGZus{}fig}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{save\PYGZus{}fig}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{inverse\PYGZus{}cdf}\PYG{p}{(}
+        \PYG{n}{ks\PYGZus{}density\PYGZus{}width}\PYG{p}{:} \PYG{n+nb}{float} \PYG{o}{=} \PYG{l+m+mf}{0.15}\PYG{p}{,}
+        \PYG{n}{n}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{10\PYGZus{}000}\PYG{p}{,}
+        \PYG{n}{k}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{30}\PYG{p}{,}
+        \PYG{n}{linspace\PYGZus{}num}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{1\PYGZus{}000}\PYG{p}{,}
+\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Plots the histogram estimate and the KDE for the exponential}
+\PYG{l+s+sd}{    distribution with mean 1 using the inverse cdf method.}
+
+\PYG{l+s+sd}{    :param ks\PYGZus{}density\PYGZus{}width: The width used in the KDE.}
+\PYG{l+s+sd}{    :param n: The number of samples from the uniform distribution.}
+\PYG{l+s+sd}{    :param k: The number of histogram bins.}
+\PYG{l+s+sd}{    :param linspace\PYGZus{}num: The number of points to evaluate the KDE at.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{u\PYGZus{}samples} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}
+    \PYG{n}{exp\PYGZus{}samples} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{u\PYGZus{}samples}\PYG{p}{)}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}
+        \PYG{n}{start}\PYG{o}{=}\PYG{n}{exp\PYGZus{}samples}\PYG{o}{.}\PYG{n}{min}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}
+        \PYG{n}{stop}\PYG{o}{=}\PYG{n}{exp\PYGZus{}samples}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}
+        \PYG{n}{num}\PYG{o}{=}\PYG{n}{linspace\PYGZus{}num}
+    \PYG{p}{)}
+    \PYG{n}{pdf} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{x}\PYG{p}{)}
+    \PYG{n}{ks\PYGZus{}density} \PYG{o}{=} \PYG{n}{ksdensity}\PYG{p}{(}\PYG{n}{exp\PYGZus{}samples}\PYG{p}{,} \PYG{n}{width}\PYG{o}{=}\PYG{n}{ks\PYGZus{}density\PYGZus{}width}\PYG{p}{)}
+
+    \PYG{n}{fig}\PYG{p}{,} \PYG{p}{(}\PYG{n}{hist\PYGZus{}ax}\PYG{p}{,} \PYG{n}{ksd\PYGZus{}ax}\PYG{p}{)} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{,} \PYG{n}{nrows}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ncols}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+
+    \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{pdf}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{dashed}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pdf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ksd\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{pdf}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{dashed}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pdf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{exp\PYGZus{}samples}\PYG{p}{,} \PYG{n}{bins}\PYG{o}{=}\PYG{n}{k}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lightgrey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{density}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{estimate}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ksd\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{ks\PYGZus{}density}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pdf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{probability density}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{A}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ksd\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{B}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{ax} \PYG{o+ow}{in} \PYG{p}{[}\PYG{n}{hist\PYGZus{}ax}\PYG{p}{,} \PYG{n}{ksd\PYGZus{}ax}\PYG{p}{]}\PYG{p}{:}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{x\PYGZhy{}small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{value}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{save\PYGZus{}fig}\PYG{p}{(}\PYG{n}{question}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{inverse\PYGZus{}cdf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}

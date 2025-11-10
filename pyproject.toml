@@ -1,0 +1,10 @@
+[project]
+name = "3f3-lab"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.10.7",
+    "scipy>=1.16.3",
+    "scipy-stubs==1.16.3.0",
+]

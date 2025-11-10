@@ -1,0 +1,73 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Callable}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{pyplot} \PYG{k}{as} \PYG{n}{plt}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{constants}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{ksdensity}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{ksdensity}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{save\PYGZus{}fig}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{save\PYGZus{}fig}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{plot\PYGZus{}pdf\PYGZus{}and\PYGZus{}estimate}\PYG{p}{(}
+        \PYG{n}{plot\PYGZus{}id}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,}
+        \PYG{n}{gen\PYGZus{}fn}\PYG{p}{:} \PYG{n}{Callable}\PYG{p}{[}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{]}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{ndarray}\PYG{p}{]}\PYG{p}{,}
+        \PYG{n}{pdf}\PYG{p}{:} \PYG{n}{Callable}\PYG{p}{[}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{ndarray}\PYG{p}{]}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{ndarray}\PYG{p}{]}\PYG{p}{,}
+        \PYG{n}{ks\PYGZus{}density\PYGZus{}width}\PYG{p}{:} \PYG{n+nb}{float} \PYG{o}{=} \PYG{l+m+mf}{0.3}\PYG{p}{,}
+        \PYG{n}{n}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{1\PYGZus{}000}\PYG{p}{,}
+        \PYG{n}{bin\PYGZus{}count}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{30}\PYG{p}{,}
+        \PYG{n}{linspace\PYGZus{}num}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{1\PYGZus{}000}\PYG{p}{,}
+\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Plots the histogram estimate and KDE of a given distribution.}
+
+\PYG{l+s+sd}{    :param plot\PYGZus{}id: The id of the plot used to name the exported file.}
+\PYG{l+s+sd}{    :param gen\PYGZus{}fn: The function used to generate samples.}
+\PYG{l+s+sd}{    :param pdf: The probability density function.}
+\PYG{l+s+sd}{    :param ks\PYGZus{}density\PYGZus{}width: The width used for the KDE.}
+\PYG{l+s+sd}{    :param n: The number of samples.}
+\PYG{l+s+sd}{    :param bin\PYGZus{}count: The number of histogram bins.}
+\PYG{l+s+sd}{    :param linspace\PYGZus{}num: The number of points to evaluate the KDE at.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{samples} \PYG{o}{=} \PYG{n}{gen\PYGZus{}fn}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}
+    \PYG{n}{samples\PYGZus{}min} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{min}\PYG{p}{(}\PYG{n}{samples}\PYG{p}{)}
+    \PYG{n}{samples\PYGZus{}max} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{samples}\PYG{p}{)}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{n}{samples\PYGZus{}min}\PYG{p}{,} \PYG{n}{samples\PYGZus{}max}\PYG{p}{,} \PYG{n}{linspace\PYGZus{}num}\PYG{p}{)}
+    \PYG{n}{pdf\PYGZus{}values} \PYG{o}{=} \PYG{n}{pdf}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+    \PYG{n}{ks\PYGZus{}density} \PYG{o}{=} \PYG{n}{ksdensity}\PYG{p}{(}\PYG{n}{samples}\PYG{p}{,} \PYG{n}{width}\PYG{o}{=}\PYG{n}{ks\PYGZus{}density\PYGZus{}width}\PYG{p}{)}
+
+    \PYG{n}{fig}\PYG{p}{,} \PYG{p}{(}\PYG{n}{hist\PYGZus{}ax}\PYG{p}{,} \PYG{n}{ksd\PYGZus{}ax}\PYG{p}{)} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}
+        \PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{,}
+        \PYG{n}{ncols}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+        \PYG{n}{nrows}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+        \PYG{n}{sharey}\PYG{o}{=}\PYG{k+kc}{True}
+    \PYG{p}{)}
+    \PYG{n}{counts}\PYG{p}{,} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}
+        \PYG{n}{samples}\PYG{p}{,}
+        \PYG{n}{bins}\PYG{o}{=}\PYG{n}{bin\PYGZus{}count}\PYG{p}{,}
+        \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lightgrey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+        \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{estimate}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{)}
+
+    \PYG{n}{bin\PYGZus{}width} \PYG{o}{=} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{bin\PYGZus{}edges}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{scaled\PYGZus{}pdf} \PYG{o}{=} \PYG{n}{pdf\PYGZus{}values} \PYG{o}{*} \PYG{n}{bin\PYGZus{}width} \PYG{o}{*} \PYG{n}{n}
+    \PYG{n}{scaled\PYGZus{}ksd} \PYG{o}{=} \PYG{n}{ks\PYGZus{}density}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{n}{bin\PYGZus{}width} \PYG{o}{*} \PYG{n}{n}
+
+    \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{scaled\PYGZus{}pdf}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pdf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ksd\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{scaled\PYGZus{}pdf}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pdf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ksd\PYGZus{}ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{scaled\PYGZus{}ksd}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{estimate}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{linestyle}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{dashed}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{ylim} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{counts}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mf}{1.1}
+
+    \PYG{k}{for} \PYG{n}{ax} \PYG{o+ow}{in} \PYG{p}{[}\PYG{n}{hist\PYGZus{}ax}\PYG{p}{,} \PYG{n}{ksd\PYGZus{}ax}\PYG{p}{]}\PYG{p}{:}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylim}\PYG{p}{(}\PYG{n}{bottom}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{top}\PYG{o}{=}\PYG{n}{ylim}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlim}\PYG{p}{(}\PYG{n}{left}\PYG{o}{=}\PYG{n}{samples\PYGZus{}min}\PYG{p}{,} \PYG{n}{right}\PYG{o}{=}\PYG{n}{samples\PYGZus{}max}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{value}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{count}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{ax}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{x\PYGZhy{}small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lower center}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{hist\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{A}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ksd\PYGZus{}ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{B}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bold}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{save\PYGZus{}fig}\PYG{p}{(}\PYG{n}{question}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{n}{plot\PYGZus{}id}\PYG{p}{)}
+\end{MintedVerbatim}

@@ -1,0 +1,51 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{matplotlib}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{pyplot} \PYG{k}{as} \PYG{n}{plt}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{calc\PYGZus{}const\PYGZus{}b}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{calc\PYGZus{}const\PYGZus{}b}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{calc\PYGZus{}const\PYGZus{}s}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{calc\PYGZus{}const\PYGZus{}s}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{calc\PYGZus{}rv\PYGZus{}x}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{calc\PYGZus{}rv\PYGZus{}x}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{constants}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}\PYG{p}{,} \PYG{n}{PAGE\PYGZus{}HEIGHT\PYGZus{}IN\PYGZus{}INCHES}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{save\PYGZus{}fig}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{save\PYGZus{}fig}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{simulation}\PYG{p}{(}
+        \PYG{n}{alphas}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{float}\PYG{p}{]}\PYG{p}{,}
+        \PYG{n}{betas}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{float}\PYG{p}{]}\PYG{p}{,}
+        \PYG{n}{n}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{100\PYGZus{}000}\PYG{p}{,}
+        \PYG{n}{k}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{50}\PYG{p}{,}
+\PYG{p}{)} \PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}} \PYG{k+kc}{None}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Plots histogram density estimates for a set of alpha and beta values.}
+
+\PYG{l+s+sd}{    :param alphas: The list of alpha values, where 0 \PYGZlt{}= alpha \PYGZlt{}= 2, alpha != 1.}
+\PYG{l+s+sd}{    :param betas: The list of beta values, where beta \PYGZhy{}1 \PYGZlt{}= beta \PYGZlt{}= 1.}
+\PYG{l+s+sd}{    :param n: The number of samples of X to plot.}
+\PYG{l+s+sd}{    :param k: The number of histogram bins.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{fig}\PYG{p}{,} \PYG{n}{axes} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}
+        \PYG{n}{nrows}\PYG{o}{=}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{betas}\PYG{p}{)}\PYG{p}{,}
+        \PYG{n}{ncols}\PYG{o}{=}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{alphas}\PYG{p}{)}\PYG{p}{,}
+        \PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{PAGE\PYGZus{}WIDTH\PYGZus{}IN\PYGZus{}INCHES}\PYG{p}{,} \PYG{n}{PAGE\PYGZus{}HEIGHT\PYGZus{}IN\PYGZus{}INCHES} \PYG{o}{*} \PYG{l+m+mf}{0.8}\PYG{p}{)}\PYG{p}{,}
+    \PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{beta} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{betas}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{j}\PYG{p}{,} \PYG{n}{alpha} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{alphas}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n}{b} \PYG{o}{=} \PYG{n}{calc\PYGZus{}const\PYGZus{}b}\PYG{p}{(}\PYG{n}{alpha}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{)}
+            \PYG{n}{s} \PYG{o}{=} \PYG{n}{calc\PYGZus{}const\PYGZus{}s}\PYG{p}{(}\PYG{n}{alpha}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{)}
+            \PYG{n}{u} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{uniform}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{size}\PYG{o}{=}\PYG{n}{n}\PYG{p}{)}
+            \PYG{n}{v} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{exponential}\PYG{p}{(}\PYG{n}{scale}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{size}\PYG{o}{=}\PYG{n}{n}\PYG{p}{)}
+            \PYG{n}{x} \PYG{o}{=} \PYG{n}{calc\PYGZus{}rv\PYGZus{}x}\PYG{p}{(}\PYG{n}{alpha}\PYG{p}{,} \PYG{n}{s}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)}
+
+            \PYG{n}{ax} \PYG{o}{=} \PYG{n}{axes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{]}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{tick\PYGZus{}params}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{both}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{which}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{major}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{labelsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{bins}\PYG{o}{=}\PYG{n}{k}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{histogram}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{density}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{log}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{j} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZdl{}}\PYG{l+s+s2}{\PYGZbs{}}\PYG{l+s+s2}{beta = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{beta}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdl{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{i} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZdl{}}\PYG{l+s+s2}{\PYGZbs{}}\PYG{l+s+s2}{alpha = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{alpha}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdl{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{small}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loc}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{left}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{save\PYGZus{}fig}\PYG{p}{(}\PYG{n}{question}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{simulation}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}
