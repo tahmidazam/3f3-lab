@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1762771322.40502 "main.bcf" "main.bbl" "main" 1762772226.2729 0
-  "main.bcf" 1762772226.1153 108053 8affc2d704f02115228041300fbfc195 "lualatex"
+["biber main"] 1762771322.40502 "main.bcf" "main.bbl" "main" 1762772731.38915 0
+  "main.bcf" 1762772731.23019 108053 8affc2d704f02115228041300fbfc195 "lualatex"
   "references.bib" 1762610172.01898 3512 cabeefc717a4b62610006b45b3b5c7f2 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["lualatex"] 1762772223.47145 "/Users/tahmidazam/Developer/3f3-lab/tex/main.tex" "main.pdf" "main" 1762772226.27313 0
+["lualatex"] 1762772728.54571 "/Users/tahmidazam/Developer/3f3-lab/tex/main.tex" "main.pdf" "main" 1762772731.38938 0
   "../src/calc_const_b.py" 1762768383.19773 144 a47558c39f8d91fed427da31c0910835 ""
   "../src/calc_const_s.py" 1762768383.20064 198 313b29a3c0b1d163416e43e34f89164a ""
   "../src/calc_rv_x.py" 1762768383.20161 349 47d4c11d2cd046084040d631c2fb465b ""
@@ -15,7 +15,7 @@
   "../src/plot_multinomial_theory.py" 1762771104.01676 1732 cc334f9f0dab0944a906081415d7d3fb ""
   "../src/plot_pdf_and_estimate.py" 1762770618.06037 2283 02671d8b70195625af70ea6e202b3047 ""
   "../src/simulation.py" 1762769119.65814 1656 21032541a88987270f50733bbb264565 ""
-  "/Users/tahmidazam/Developer/3f3-lab/tex/main.tex" 1762772220.26403 13101 c438cabf1e387dfe45710889a9d177be ""
+  "/Users/tahmidazam/Developer/3f3-lab/tex/main.tex" 1762772724.46507 13171 91b9d3fe2e590b60b6013a173333fc2c ""
   "/Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-regular.luc" 1761401270.36035 81837 7091cab214959897276971ec5ae174a1 ""
   "/Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmmono8-regular.luc" 1762770659.69104 81440 f39b303bf676de2a5f82f0f543587f3d ""
   "/Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-italic.luc" 1762529085.97192 136312 6547331b6da4bca63f5ef335e1edeaad ""
@@ -289,11 +289,11 @@
   "_minted/E1CE3E2B2F64A4A4758056AB8E2618FD.highlight.minted" 1762769932.42465 7496 77f12bbd20c150bdbc82e825ab448597 ""
   "_minted/E62F1A6B562C3BE89FBDE072A5E5680C.highlight.minted" 1762769123.0538 5914 72a30a7959a56d5a2c33aedfcf15396f ""
   "_minted/xcode.style.minted" 1762768624.14019 5479 4086d434ede5ff047aa9b1f026826aa5 ""
-  "main.aux" 1762772226.11353 8829 e807debed00e1a7eade2c50744c2d36d "lualatex"
+  "main.aux" 1762772731.2284 8829 e807debed00e1a7eade2c50744c2d36d "lualatex"
   "main.bbl" 1762771325.01286 7094 316853319995d98fdcc7fa262d1dca56 "biber main"
-  "main.out" 1762772226.11449 1440 84aaabc59de6e9b555d4dc64352d4c97 "lualatex"
-  "main.run.xml" 1762772226.11583 2381 0cc5578b1c4eb29b091af5eba675c54b "lualatex"
-  "main.tex" 1762772220.26403 13101 c438cabf1e387dfe45710889a9d177be ""
+  "main.out" 1762772731.22938 1440 84aaabc59de6e9b555d4dc64352d4c97 "lualatex"
+  "main.run.xml" 1762772731.23073 2381 0cc5578b1c4eb29b091af5eba675c54b "lualatex"
+  "main.tex" 1762772724.46507 13171 91b9d3fe2e590b60b6013a173333fc2c ""
   "plots/1_normal.pgf" 1762771147.42666 127431 a59b46123be6c53910638840bf130716 ""
   "plots/1_uniform.pgf" 1762771147.51677 112110 f68c6b9696d09b1c20f074fff2037f29 ""
   "plots/1_uniform_multinomial.pgf" 1762771147.65871 164876 e29b2c5289a67fe743cc08a5f926607b ""

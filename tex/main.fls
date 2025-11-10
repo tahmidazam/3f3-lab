@@ -240,9 +240,7 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
-INPUT /usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map
-INPUT /Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-bold.luc
-INPUT ./plots/1_normal.pgf
+INPUT /Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-regular.luc
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr7.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr5.tfm
@@ -261,9 +259,11 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT /usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT /Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-bold.luc
+INPUT ./plots/1_normal.pgf
 INPUT /Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman8-bold.luc
 INPUT /Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman7-regular.luc
-INPUT /Users/tahmidazam/Library/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-regular.luc
 INPUT ./plots/1_uniform.pgf
 OUTPUT _FAD58DE7366495DB4650CFEFAC2FCD61.data.minted
 INPUT ./_FAD58DE7366495DB4650CFEFAC2FCD61.config.minted
